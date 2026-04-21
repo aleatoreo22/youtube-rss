@@ -1,0 +1,33 @@
+# Test binaries
+*_test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace files (optional, keep if you want to share workspace)
+# go.work
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.wiz
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Database (optional - uncomment if you don't want to version the DB)
+# database.db
+
+# Temporary files
+*.tmp
+*.temp
