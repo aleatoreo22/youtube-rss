@@ -26,7 +26,7 @@ Thumbs.db
 *.log
 
 # Database (optional - uncomment if you don't want to version the DB)
-# database.db
+database.db
 
 # Temporary files
 *.tmp

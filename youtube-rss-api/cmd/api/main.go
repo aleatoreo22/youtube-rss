@@ -50,6 +50,6 @@ func getYoutubeRssContent() {
 			Service.ContentService.SyncContent()
 			Handler.InSyncContent = false
 		}
-		time.Sleep(time.Minute * 5)
+		time.Sleep(time.Minute * 60)
 	}
 }

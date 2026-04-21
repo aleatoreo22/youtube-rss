@@ -6,7 +6,7 @@ import 'model/user.dart';
 import 'model/channel.dart';
 
 class YoutubeRSS {
-  static const String baseUrl = 'http://onehome:1234';
+  static const String baseUrl = 'http://192.168.3.2:1234';
 
   Future<List<Content>> getContentByDate(DateTime date) async {
     final dateString =
@@ -51,15 +51,12 @@ class YoutubeRSS {
   Future<void> ping() async {
     final response = await http.get(Uri.parse("$baseUrl/ping"));
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(data);
-    } else {
+    if (response.statusCode != 200) {
       throw Exception('Erro na requisição');
     }
   }
 
-  Future<User> GetUser(int userId) async {
+  Future<User> getUser(int userId) async {
     final response = await http.get(
       Uri.parse("$baseUrl/user/$userId"),
     );
@@ -73,7 +70,7 @@ class YoutubeRSS {
     }
   }
 
-  Future<List<Channel>> GetUserChannels(int userId) async {
+  Future<List<Channel>> getUserChannels(int userId) async {
     final response = await http.get(
       Uri.parse("$baseUrl/user/$userId/channel"),
     );
@@ -88,7 +85,7 @@ class YoutubeRSS {
     }
   }
 
-  Future<void> DeleteUserChannel(int userId, int channelId) async {
+  Future<void> deleteUserChannel(int userId, int channelId) async {
     final response = await http.delete(
       Uri.parse("$baseUrl/user/$userId/channel/$channelId"),
     );

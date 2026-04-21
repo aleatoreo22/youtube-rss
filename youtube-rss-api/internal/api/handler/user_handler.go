@@ -173,14 +173,20 @@ func (u *UserHandler) AddUserYoutubeChannel(c *gin.Context) {
 }
 
 func (u *UserHandler) DeleteUserChannel(c *gin.Context) {
-	idString := c.Param("id")
-	idNumber, err := strconv.Atoi(idString)
+	userIdString := c.Param("id")
+	channelIdString := c.Param("channelId")
+	userIdNumber, err := strconv.Atoi(userIdString)
+	if err != nil {
+		u.h.erroHandler(c, err)
+		return
+	}
+	channelIdNumber, err := strconv.Atoi(channelIdString)
 	if err != nil {
 		u.h.erroHandler(c, err)
 		return
 	}
 
-	user, err := u.h.s.UserService.Get(idNumber)
+	user, err := u.h.s.UserService.Get(userIdNumber)
 	if err != nil {
 		u.h.erroHandler(c, err)
 		return
@@ -200,7 +206,7 @@ func (u *UserHandler) DeleteUserChannel(c *gin.Context) {
 
 	// Find and delete the channel
 	for i, uc := range userChannels {
-		if uc.Id == idNumber {
+		if uc.Id == channelIdNumber {
 			_, err := u.h.s.UserChannelService.Delete(uc.Id)
 			if err != nil {
 				u.h.erroHandler(c, err)

@@ -62,13 +62,13 @@ func ValidateChannel(channel domain.Channel) (domain.Channel, error) {
 
 	yrss := youtuberss.New()
 	feed, err := yrss.GetFeed(channel.RssUrl)
-	channel.Name = feed.Title
 	if err != nil {
 		return channel, err
 	}
 	if feed.ID == "" {
 		return channel, errors.New("Cannot communicate with YouTube")
 	}
+	channel.Name = feed.Title
 
 	return channel, nil
 }

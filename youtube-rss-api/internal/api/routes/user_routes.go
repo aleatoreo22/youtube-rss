@@ -11,7 +11,7 @@ func RegisterUserRoutes(r *gin.Engine, h *handler.UserHandler) {
 	r.POST("/user", h.Create)
 
 	r.POST("/user/:id/channel", h.AddUserYoutubeChannel)
-	r.DELETE("/user/:id/channel", h.DeleteUserChannel)
+	r.DELETE("/user/:id/channel/:channelId", h.DeleteUserChannel)
 	r.GET("/user/:id/channel", h.GetUserChannels)
 
 	r.GET("/user/:id/content/:date", h.GetContentByDate)

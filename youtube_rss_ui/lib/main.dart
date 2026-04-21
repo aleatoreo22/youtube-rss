@@ -49,6 +49,9 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: NavigationBar(
         destinations: navbarbuttons(),
         onDestinationSelected: navbarDestinationSelected,
+        selectedIndex: _currentIndex,
+        height: 60,
+        indicatorColor: Colors.yellowAccent,
       ),
       body: _body[_currentIndex],
     );
@@ -63,17 +66,10 @@ class _MainPageState extends State<MainPage> {
   List<Widget> navbarbuttons() {
     return const <Widget>[
       NavigationDestination(
-        selectedIcon: Badge(
-          label: Text('2'),
-          child: Icon(Icons.play_arrow_outlined),
-        ),
+        selectedIcon: Icon(Icons.play_arrow_outlined),
         icon: Icon(Icons.play_arrow),
         label: 'Videos',
       ),
-      // NavigationDestination(
-      //   icon: Badge(child: Icon(Icons.history)),
-      //   label: 'History',
-      // ),
       NavigationDestination(
         selectedIcon: Icon(Icons.person),
         icon: Icon(Icons.person),
@@ -83,9 +79,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   List<Widget> pages() {
-    return <Widget>[
-      VideoPage(),
-      UserPage(),
-    ];
+    return <Widget>[VideoPage(), UserPage()];
   }
 }

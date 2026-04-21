@@ -14,14 +14,14 @@ class VideoPage extends StatefulWidget {
 class _VideoPageState extends State<VideoPage> with TickerProviderStateMixin {
   final YoutubeRSS _api = YoutubeRSS();
   final ScrollController _scrollController = ScrollController();
+  final int _userId = 1;
+  final int _pageSize = 13;
+
   List<Content> _contents = [];
   bool _isLoading = true;
   bool _isLoadingMore = false;
   int _currentPage = 1;
   int _totalPages = 1;
-  final int _userId = 1;
-  final int _pageSize = 13;
-
   AnimationController? _controller;
 
   @override
@@ -101,7 +101,6 @@ class _VideoPageState extends State<VideoPage> with TickerProviderStateMixin {
   Future<void> _updateContent() async {
     setState(() => _isLoading = true);
 
-    // Simula a atualização por 1 segundo
     await Future.delayed(Duration(seconds: 1));
 
     _controller?.forward(from: 0.0);
@@ -149,30 +148,7 @@ class _VideoPageState extends State<VideoPage> with TickerProviderStateMixin {
                   );
                 }
                 final content = _contents[index];
-                return GestureDetector(
-                  onTap: () async {
-                    await openUrl(content.url);
-                  },
-                  child: Column(
-                    children: [
-                      Image.network(
-                        content.image.replaceFirst(
-                          "hqdefault",
-                          "maxresdefault",
-                        ),
-                        width: double
-                            .infinity, // Torna a imagem toda a largura disponível
-                        fit: BoxFit.fill,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.video_library),
-                      ),
-                      ListTile(
-                        title: Text(content.title),
-                        subtitle: Text(formatDate(content.date)),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildContentCard(content);
               },
             ),
       floatingActionButton: FloatingActionButton(
@@ -181,8 +157,56 @@ class _VideoPageState extends State<VideoPage> with TickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _controller!,
           builder: (context, child) {
-            return Icon(Icons.refresh, color: Colors.white);
+            return Icon(Icons.refresh, color: Colors.black);
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContentCard(Content content) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: InkWell(
+        onTap: () async {
+          await openUrl(content.url);
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(8),
+              ),
+              child: Image.network(
+                content.image.replaceFirst("hqdefault", "maxresdefault"),
+                width:
+                    double.infinity, // Torna a imagem toda a largura disponível
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.video_library),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    content.title,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    formatDate(content.date),
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
